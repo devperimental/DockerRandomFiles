@@ -1,6 +1,6 @@
 New-AzureRmResourceGroup -Name docker-engine-api -Location "Australia East"
 
-New-AzureNetworkSecurityGroup -Name "NSG-DockerClient" -Location "Australia East"
+New-AzureRmNetworkSecurityGroup -Name "NSG-DockerClient" -Location "Australia East" ResourceGroupName
 
 Get-AzureNetworkSecurityGroup -Name "NSG-FrontEnd" `
   | Set-AzureNetworkSecurityRule -Name ssh-rule `
