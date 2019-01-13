@@ -1,4 +1,8 @@
 # DockerRandomFiles
+0 Provision 2 Ubuntu 18.04 VMs
+	docker-host-1
+	docker-host-2
+
 1 Installing Docker
 
 1.1 prep-system.sh usage
@@ -21,15 +25,23 @@ https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
 2.1 Connect to the engine api on localhost
 ------------------------------------------
-curl --unix-socket /var/run/docker.sock http:/v.1.24/info
+sudo curl --unix-socket /var/run/docker.sock http:/v.1.24/info
+
+If you prefer formatted
+
+sudo curl --unix-socket /var/run/docker.sock http:/v.1.24/info | python3 -mjson.tool
 
 2.2 Update dockerd to accept remote connections
 -----------------------------------------------
-1 edit /lib/systemd/system/docker.service
-2 ExecStart=/usr/bin/dockerd -H fd:// -H=tcp://0.0.0.0:2375
-3 sudo systemctl daemon-reload
-4 sudo service docker restart
+Step 1 edit sudo nano /lib/systemd/system/docker.service
+With ExecStart=/usr/bin/dockerd -H fd:// -H=tcp://0.0.0.0:2375
+Step 2 sudo systemctl daemon-reload
+Step 3 sudo service docker restart
 
 2.3 Configure network security group to allow traffic on port 2375
 ------------------------------------------------------------------
+
+2.4 Test from second machine (docker-host-2)
+sudo curl http://docker-host-1:2375/v1.24/info | python3 -mjson.tool
+sudo curl http://docker-host-1:2375/v1.24/info
 
